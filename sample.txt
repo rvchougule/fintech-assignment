@@ -1,0 +1,16 @@
+Absolute Commissions: 
+{
+    <RoleEnum.ADMIN: 'ADMIN'>: 10.0, 
+    <RoleEnum.WHITE_LABEL: 'WHITE_LABEL'>: 8.0, 
+    <RoleEnum.MASTER_DISTRIBUTOR: 'MASTER_DISTRIBUTOR'>: 6.0,
+     <RoleEnum.DISTRIBUTOR: 'DISTRIBUTOR'>: 4.0, 
+     <RoleEnum.RETAILER: 'RETAILER'>: 1.0, 
+     <RoleEnum.CUSTOMER: 'CUSTOMER'>: 0.0}
+
+Earnings Distribution: 
+{
+    <RoleEnum.ADMIN: 'ADMIN'>: 2.0,
+     <RoleEnum.WHITE_LABEL: 'WHITE_LABEL'>: 2.0,
+      <RoleEnum.MASTER_DISTRIBUTOR: 'MASTER_DISTRIBUTOR'>: 2.0,
+       <RoleEnum.DISTRIBUTOR: 'DISTRIBUTOR'>: 3.0,
+        <RoleEnum.RETAILER: 'RETAILER'>: 1.0}
