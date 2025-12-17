@@ -1,0 +1,26 @@
+Super Admin - Sys User
+Other role - Bussines users
+
+Superadmin -
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJleHAiOjE3NjU5NTU0NDd9.6mauvuKtw8-8efLAKkMnU5lDzprBKGaaHowGoqNWnkg
+
+raj- ADM
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NjU5NTY0NDZ9.o0EgxBDKbR88NrRKoPY7RRLjwCkbh5hJbhIEun6O-VM
+
+mohit - WT
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2xlIjoiV0hJVEVfTEFCRUwiLCJleHAiOjE3NjU5NTY4NTF9.Lo5kYAC8jSLcvzG3B23WJd6mcIL6icDUkD8VXJMQJ98
+
+shri - MDS
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJyb2xlIjoiTUFTVEVSX0RJU1RSSUJVVE9SIiwiZXhwIjoxNzY1OTU3MTgxfQ.6LigX8igh9A9RDcChKC0SPPRFE7ZsQ2ZoNyw9kZ0IBY
+
+Commission Module
+
+- user must allow to set commission for every scheme and service
+-
+
+Bugs
+
+- Fix direct member allocation while onboarding parent should be the one higher level role not other roles

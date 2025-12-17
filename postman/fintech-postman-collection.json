@@ -1,0 +1,155 @@
+{
+  "info": {
+    "_postman_id": "c3b8a6c4-9a6e-4c1b-b6fa-7e55d99a3b22",
+    "name": "FinTech Scheme & Commission Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Login and Scheme Management APIs"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Temporary)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"superadmin\",\n  \"role\": \"SUPER_ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scheme Management",
+      "item": [
+        {
+          "name": "Create Scheme",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "1",
+                "description": "Logged in user ID"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin Default Scheme\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/schemes/create",
+              "host": ["{{base_url}}"],
+              "path": ["schemes", "create"]
+            }
+          }
+        },
+        {
+          "name": "Create Child Scheme",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-user-id",
+                "value": "2",
+                "description": "Admin or WhiteLabel user ID"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Retailer Scheme\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/schemes/create",
+              "host": ["{{base_url}}"],
+              "path": ["schemes", "create"]
+            }
+          }
+        },
+        {
+          "name": "List Schemes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/schemes",
+              "host": ["{{base_url}}"],
+              "path": ["schemes"]
+            }
+          }
+        },
+        {
+          "name": "Get Scheme Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/schemes/1",
+              "host": ["{{base_url}}"],
+              "path": ["schemes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Deactivate Scheme",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "1"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/schemes/1/deactivate",
+              "host": ["{{base_url}}"],
+              "path": ["schemes", "1", "deactivate"]
+            }
+          }
+        },
+        {
+          "name": "Activate Scheme",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "x-user-id",
+                "value": "1"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/schemes/1/activate",
+              "host": ["{{base_url}}"],
+              "path": ["schemes", "1", "activate"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ]
+}
