@@ -1,26 +1,146 @@
-Super Admin - Sys User
-Other role - Bussines users
+# Scheme & Commission Management System
 
-Superadmin -
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJleHAiOjE3NjU5NjMyNTh9.8BVXUEo7T-3E42TWGesISMcxegyv16jOtIXn8VET9PA
+## Overview
 
-raj- ADM
+This module implements a **hierarchical, role-based commission management system** designed for fintech / multi-level platforms. It supports **scheme inheritance**, **service-wise commission configuration**, and **accurate commission settlement** during transactions.
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NjU5NTY0NDZ9.o0EgxBDKbR88NrRKoPY7RRLjwCkbh5hJbhIEun6O-VM
+The system ensures:
 
-mohit - WT
+- No commission leakage
+- No double payouts
+- Strict hierarchy validation
+- Full auditability via ledgers
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2xlIjoiV0hJVEVfTEFCRUwiLCJleHAiOjE3NjU5NTY4NTF9.Lo5kYAC8jSLcvzG3B23WJd6mcIL6icDUkD8VXJMQJ98
+---
 
-shri - MDS
+## Problem Statement
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJyb2xlIjoiTUFTVEVSX0RJU1RSSUJVVE9SIiwiZXhwIjoxNzY1OTYzNDYwfQ.E_lGYR9l1WHhkG9u1dA6RcCJuKlmOGkb3ZKCJNDp3Zc
+In a multi-role fintech platform:
 
-Commission Module
+- Different users (Admin, White Label, Master Distributor, Distributor, Retailer, Customer) earn commissions
+- Commissions vary per **service**
+- Schemes are hierarchical (child schemes inherit from parent schemes)
+- Some roles may **not be allowed** to configure commissions
 
-- user must allow to set commission for every scheme and service
--
+The challenge is to:
 
-Bugs
+- Resolve commissions correctly across scheme hierarchy
+- Allow partial configuration using `NULL`
+- Ensure Admin/root commissions are always respected
+- Distribute only **margin commissions**, not absolute
 
-- Fix direct member allocation while onboarding parent should be the one higher level role not other roles
+---
+
+## Core Concepts
+
+### 1. Scheme Hierarchy
+
+- Schemes can have parent schemes
+- Root scheme (SuperAdmin) acts as the **final fallback**
+- Child schemes inherit commissions from parents when values are `NULL`
+
+```
+SuperAdmin Scheme (root)
+   └── White Label Scheme
+         └── Master Distributor Scheme
+               └── Distributor Scheme
+```
+
+---
+
+### 2. Role-Based Commission Model
+
+Supported roles:
+
+- ADMIN
+- WHITE_LABEL
+- MASTER_DISTRIBUTOR
+- DISTRIBUTOR
+- RETAILER
+- CUSTOMER
+
+Each role has a **maximum absolute commission percentage** per service.
+
+---
+
+### 3. Commission Types
+
+- **Percentage-based** (most common)
+- Absolute values are converted to **margin earnings** during settlement
+
+---
+
+## Commission Resolution Logic
+
+### Absolute Commission Resolution
+
+- Start from the user's scheme
+- For each role:
+
+  - If value is `NULL`, move to parent scheme
+  - First non-null value wins
+
+- If no value is found, root scheme is used
+
+This guarantees Admin commissions are never skipped.
+
+---
+
+### Margin Commission Calculation
+
+Absolute commissions are converted into **earnings**:
+
+```
+Role Margin = Current Role % - Next Lower Role %
+```
+
+This prevents double payouts and ensures correct revenue sharing.
+
+---
+
+## Transaction Flow
+
+1. User initiates transaction
+2. Resolve absolute commission from scheme hierarchy
+3. Convert absolute → margin commissions
+4. Traverse user hierarchy (parent users)
+5. Create CommissionLedger entries
+6. Persist transaction + ledger atomically
+
+---
+
+## APIs Implemented
+
+### Commission Management
+
+- Create / Update commission per scheme & service
+- Validate against parent scheme limits
+- Partial updates supported using `NULL`
+
+### Commission Chain View
+
+- View full inheritance chain
+- Shows scheme-by-scheme commission configuration
+- Includes root scheme
+
+### Transaction APIs
+
+- Create transaction
+- Auto-settle commissions
+- View personal transaction & commission summary
+
+### Deletion APIs (just for the clean up)
+
+- Delete transaction → auto deletes ledgers
+- Delete commission → deletes related transactions & ledgers
+
+---
+
+## Safety & Validation
+
+- Only scheme creators or admins can configure commissions
+- Child commissions cannot exceed parent limits
+- Admin & SuperAdmin cannot initiate transactions
+- Strict role hierarchy enforcement
+
+---
